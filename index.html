@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>niriksha narendra babu — data engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:      #080c14;
+  --surface: #0d1420;
+  --border:  #1a2540;
+  --blue:    #2d6be4;
+  --cyan:    #00d4ff;
+  --gold:    #f0a500;
+  --green:   #00e5a0;
+  --muted:   #4a6080;
+  --text:    #c8dff0;
+  --bright:  #eef4fc;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* ── noise overlay ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+}
+
+/* ── grid lines ── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(45,107,228,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(45,107,228,0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── layout ── */
+.wrap {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── nav ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(8,12,20,0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0.9rem 0;
+}
+nav .wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.nav-brand {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: var(--cyan);
+  letter-spacing: 0.02em;
+  text-decoration: none;
+}
+.nav-links { display: flex; gap: 2rem; }
+.nav-links a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--cyan); }
+
+/* ── hero ── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 6rem 0 4rem;
+}
+.hero-inner { max-width: 700px; }
+
+.prompt {
+  font-size: 0.72rem;
+  color: var(--green);
+  letter-spacing: 0.1em;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.prompt::before {
+  content: '▶';
+  font-size: 0.6rem;
+  animation: blink 1.2s step-end infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+.hero h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(2.4rem, 6vw, 4.2rem);
+  font-weight: 800;
+  color: var(--bright);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.5rem;
+}
+.hero h1 span { color: var(--cyan); }
+
+.hero-role {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.06em;
+}
+.hero-role em {
+  color: var(--gold);
+  font-style: normal;
+}
+
+.hero-bio {
+  font-size: 0.88rem;
+  color: var(--text);
+  line-height: 1.8;
+  max-width: 560px;
+  margin-bottom: 2.5rem;
+  border-left: 2px solid var(--blue);
+  padding-left: 1.2rem;
+}
+
+.hero-links { display: flex; gap: 1rem; flex-wrap: wrap; }
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 1.1rem;
+  border-radius: 3px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: all 0.2s;
+  cursor: pointer;
+  border: none;
+}
+.btn-primary {
+  background: var(--blue);
+  color: white;
+}
+.btn-primary:hover { background: var(--cyan); color: var(--bg); }
+.btn-outline {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.btn-outline:hover { border-color: var(--cyan); color: var(--cyan); }
+
+/* ── sections ── */
+section { padding: 5rem 0; border-top: 1px solid var(--border); }
+
+.section-label {
+  font-size: 0.68rem;
+  color: var(--cyan);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+.section-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--bright);
+  margin-bottom: 2.5rem;
+  letter-spacing: -0.01em;
+}
+
+/* ── projects ── */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.2rem;
+}
+
+.project-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1.5rem;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.2s, transform 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.project-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--accent, var(--blue));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s;
+}
+.project-card:hover { border-color: var(--accent, var(--blue)); transform: translateY(-2px); }
+.project-card:hover::before { transform: scaleX(1); }
+
+.project-card.featured { --accent: var(--cyan); }
+.project-card.analytics { --accent: var(--gold); }
+.project-card.ml { --accent: var(--green); }
+
+.project-icon { font-size: 1.6rem; margin-bottom: 0.8rem; }
+.project-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--bright);
+  margin-bottom: 0.4rem;
+}
+.project-desc {
+  font-size: 0.78rem;
+  color: var(--muted);
+  line-height: 1.6;
+  flex: 1;
+  margin-bottom: 1rem;
+}
+.project-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+.tag {
+  font-size: 0.65rem;
+  background: rgba(45,107,228,0.12);
+  color: var(--blue);
+  border: 1px solid rgba(45,107,228,0.25);
+  border-radius: 2px;
+  padding: 0.15rem 0.5rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.project-card.featured .tag { background: rgba(0,212,255,0.1); color: var(--cyan); border-color: rgba(0,212,255,0.2); }
+.project-card.analytics .tag { background: rgba(240,165,0,0.1); color: var(--gold); border-color: rgba(240,165,0,0.2); }
+.project-card.ml .tag { background: rgba(0,229,160,0.1); color: var(--green); border-color: rgba(0,229,160,0.2); }
+
+.project-link {
+  font-size: 0.7rem;
+  color: var(--muted);
+  margin-top: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  transition: color 0.2s;
+}
+.project-card:hover .project-link { color: var(--cyan); }
+
+/* ── skills ── */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+.skill-group {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1.2rem;
+}
+.skill-group-label {
+  font-size: 0.65rem;
+  color: var(--cyan);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.8rem;
+  font-weight: 600;
+}
+.skill-item {
+  font-size: 0.78rem;
+  color: var(--text);
+  padding: 0.2rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.skill-item::before {
+  content: '';
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--blue);
+  flex-shrink: 0;
+}
+
+/* ── career pivot callout ── */
+.pivot-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: 0 6px 6px 0;
+  padding: 1.5rem 1.8rem;
+  margin-bottom: 2rem;
+}
+.pivot-box p {
+  font-size: 0.85rem;
+  color: var(--text);
+  line-height: 1.8;
+}
+.pivot-box p + p { margin-top: 0.8rem; }
+.pivot-box strong { color: var(--bright); }
+
+/* ── timeline ── */
+.timeline { display: flex; flex-direction: column; gap: 0; }
+.timeline-item {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 1.5rem;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+.timeline-item:last-child { border-bottom: none; }
+.timeline-date {
+  font-size: 0.7rem;
+  color: var(--muted);
+  padding-top: 0.2rem;
+  letter-spacing: 0.05em;
+}
+.timeline-role {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  color: var(--bright);
+  font-size: 0.95rem;
+}
+.timeline-company { color: var(--cyan); font-size: 0.8rem; margin-bottom: 0.5rem; }
+.timeline-bullets {
+  list-style: none;
+  margin-top: 0.5rem;
+}
+.timeline-bullets li {
+  font-size: 0.78rem;
+  color: var(--muted);
+  padding: 0.15rem 0;
+  padding-left: 1rem;
+  position: relative;
+  line-height: 1.6;
+}
+.timeline-bullets li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--blue);
+}
+
+/* ── contact ── */
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+.contact-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1.2rem;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+.contact-item:hover { border-color: var(--cyan); }
+.contact-item .ci-icon { font-size: 1.2rem; }
+.contact-item .ci-label { font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+.contact-item .ci-value { font-size: 0.8rem; color: var(--bright); margin-top: 0.1rem; }
+
+/* ── footer ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 2rem 0;
+  text-align: center;
+  font-size: 0.7rem;
+  color: var(--muted);
+}
+
+/* ── animations ── */
+.fade-in {
+  opacity: 0;
+  transform: translateY(16px);
+  animation: fadeUp 0.6s ease forwards;
+}
+@keyframes fadeUp { to { opacity:1; transform:translateY(0); } }
+.fade-in:nth-child(1) { animation-delay: 0.1s; }
+.fade-in:nth-child(2) { animation-delay: 0.2s; }
+.fade-in:nth-child(3) { animation-delay: 0.3s; }
+.fade-in:nth-child(4) { animation-delay: 0.4s; }
+.fade-in:nth-child(5) { animation-delay: 0.5s; }
+.fade-in:nth-child(6) { animation-delay: 0.6s; }
+
+@media (max-width: 600px) {
+  .timeline-item { grid-template-columns: 1fr; gap: 0.3rem; }
+  .nav-links { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- nav -->
+<nav>
+  <div class="wrap">
+    <a class="nav-brand" href="#">niriksha.dev</a>
+    <div class="nav-links">
+      <a href="#projects">projects</a>
+      <a href="#skills">skills</a>
+      <a href="#experience">experience</a>
+      <a href="#contact">contact</a>
+    </div>
+  </div>
+</nav>
+
+<!-- hero -->
+<div class="wrap">
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="prompt fade-in">data_engineer.py — running</div>
+      <h1 class="fade-in">Niriksha<br><span>Narendra Babu</span></h1>
+      <p class="hero-role fade-in">
+        data engineer · cincinnati, oh ·
+        <em>breaking into hockey analytics</em>
+      </p>
+      <p class="hero-bio fade-in">
+        i build data infrastructure — medallion pipelines, dbt models, snowflake.
+        currently at medpace working on clinical and finance data.
+        lately obsessed with sports analytics and what it looks like to bring
+        production-grade data engineering into an nhl hockey ops team.
+      </p>
+      <div class="hero-links fade-in">
+        <a class="btn btn-primary" href="https://github.com/niriksha-narendra" target="_blank">
+          ⭐ github
+        </a>
+        <a class="btn btn-outline" href="https://linkedin.com/in/niriksha-narendra-babu-6087ba150" target="_blank">
+          linkedin
+        </a>
+        <a class="btn btn-outline" href="mailto:niriksha.narendra@gmail.com">
+          email
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- projects -->
+  <section id="projects">
+    <div class="section-label">// work</div>
+    <h2 class="section-title">projects</h2>
+
+    <div class="projects-grid">
+      <a class="project-card featured"
+         href="https://github.com/niriksha-narendra/hockey-analytics-notes" target="_blank">
+        <div class="project-icon">🏒</div>
+        <div class="project-name">hockey-analytics-notes</div>
+        <div class="project-desc">
+          streamlit app i built to learn hockey analytics from scratch —
+          live nhl standings, searchable glossary with de context, pipeline
+          schemas, and the hockey calendar breakdown. built it because wikipedia
+          wasn't cutting it.
+        </div>
+        <div class="project-tags">
+          <span class="tag">Python</span>
+          <span class="tag">Streamlit</span>
+          <span class="tag">NHL API</span>
+          <span class="tag">sports analytics</span>
+        </div>
+        <div class="project-link">→ view on github</div>
+      </a>
+
+      <a class="project-card analytics"
+         href="https://github.com/niriksha-narendra/distributed-log-analytics" target="_blank">
+        <div class="project-icon">⚡</div>
+        <div class="project-name">distributed-log-analytics</div>
+        <div class="project-desc">
+          scalable telemetry pipeline for 2tb+ of semi-structured data.
+          60% query latency improvement via pyspark broadcast joins and custom
+          partitioning. 40% storage reduction through parquet and hive
+          multi-tier partitioning.
+        </div>
+        <div class="project-tags">
+          <span class="tag">PySpark</span>
+          <span class="tag">Hadoop HDFS</span>
+          <span class="tag">Hive</span>
+          <span class="tag">Airflow</span>
+        </div>
+        <div class="project-link">→ view on github</div>
+      </a>
+
+      <a class="project-card ml"
+         href="https://github.com/niriksha-narendra/text-summarization-streaming" target="_blank">
+        <div class="project-icon">🧠</div>
+        <div class="project-name">text-summarization-streaming</div>
+        <div class="project-desc">
+          containerized ml app for topic modeling via lda with 90% precision
+          on non-overlapping topics. real-time summarization using spark
+          streaming and docker for modular, production-ready deployment.
+        </div>
+        <div class="project-tags">
+          <span class="tag">Python</span>
+          <span class="tag">Spark Streaming</span>
+          <span class="tag">MongoDB</span>
+          <span class="tag">Docker</span>
+        </div>
+        <div class="project-link">→ view on github</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- skills -->
+  <section id="skills">
+    <div class="section-label">// tooling</div>
+    <h2 class="section-title">stack</h2>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <div class="skill-group-label">languages</div>
+        <div class="skill-item">Python</div>
+        <div class="skill-item">SQL / PostgreSQL</div>
+        <div class="skill-item">Jinja</div>
+        <div class="skill-item">R</div>
+        <div class="skill-item">Java / C#</div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-label">warehouse + transform</div>
+        <div class="skill-item">Snowflake</div>
+        <div class="skill-item">dbt Core</div>
+        <div class="skill-item">BigQuery</div>
+        <div class="skill-item">Fivetran</div>
+        <div class="skill-item">SSIS</div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-label">orchestration</div>
+        <div class="skill-item">Airflow</div>
+        <div class="skill-item">Prefect</div>
+        <div class="skill-item">Dagster</div>
+        <div class="skill-item">Azure Functions</div>
+        <div class="skill-item">Azure Data Factory</div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-label">cloud + devops</div>
+        <div class="skill-item">AWS</div>
+        <div class="skill-item">Azure</div>
+        <div class="skill-item">GCP</div>
+        <div class="skill-item">Docker</div>
+        <div class="skill-item">CI/CD · GitHub Actions</div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-label">viz + serving</div>
+        <div class="skill-item">Streamlit</div>
+        <div class="skill-item">Power BI</div>
+        <div class="skill-item">Microsoft Fabric</div>
+        <div class="skill-item">Snowflake Cortex</div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-label">learning right now</div>
+        <div class="skill-item">NHL tracking data</div>
+        <div class="skill-item">xG modeling</div>
+        <div class="skill-item">sports event streams</div>
+        <div class="skill-item">Corsi / WAR / GSAA</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- career pivot -->
+  <section id="experience">
+    <div class="section-label">// background</div>
+    <h2 class="section-title">experience</h2>
+
+    <div class="pivot-box">
+      <p>
+        i'm a data engineer with <strong>3+ years building production pipelines</strong>
+        in a regulated environment (clinical trials / finance). i'm making a deliberate
+        move toward sports analytics — specifically hockey ops.
+      </p>
+      <p>
+        the skill transfer is direct: medallion architecture, dbt, high-frequency event
+        data, stakeholder-facing dashboards, data reliability. i just need to learn the
+        domain. that's what hockey-analytics-notes is for.
+      </p>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-date">apr 2025 – present</div>
+        <div>
+          <div class="timeline-role">data engineer ii</div>
+          <div class="timeline-company">medpace, inc — cincinnati, oh</div>
+          <ul class="timeline-bullets">
+            <li>snowflake medallion architecture (bronze/silver/gold) using dbt — 50+ kimball models</li>
+            <li>snowflake cortex integration — 65% reduction in external api latency</li>
+            <li>22% reduction in compute overhead via query tuning and clustering keys</li>
+            <li>100% hipaa/gdpr and sox compliance across 400+ tables</li>
+            <li>ci/cd protocols — 40% deployment velocity improvement, &lt;2% rollback rate</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">feb 2023 – mar 2025</div>
+        <div>
+          <div class="timeline-role">data engineer i</div>
+          <div class="timeline-company">medpace, inc — cincinnati, oh</div>
+          <ul class="timeline-bullets">
+            <li>15+ automated pipelines using t-sql, azure functions, and prefect</li>
+            <li>metadata-driven ingestion framework — new source onboarding from 7 days to &lt;24 hours</li>
+            <li>fivetran connectors across 30+ sources — 99.9% pipeline uptime</li>
+            <li>power bi dashboards — 35% reduction in ad-hoc data requests</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">jan 2021 – dec 2022</div>
+        <div>
+          <div class="timeline-role">ms computer science</div>
+          <div class="timeline-company">university of maryland, baltimore county</div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">aug 2016 – aug 2020</div>
+        <div>
+          <div class="timeline-role">be computer science</div>
+          <div class="timeline-company">visvesvaraya technological university</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- contact -->
+  <section id="contact">
+    <div class="section-label">// reach out</div>
+    <h2 class="section-title">contact</h2>
+    <p style="font-size:0.82rem; color:var(--muted); max-width:480px; margin-bottom:1rem;">
+      open to data engineering roles in sports analytics. always happy to talk
+      hockey data, pipeline architecture, or career pivots.
+    </p>
+    <div class="contact-grid">
+      <a class="contact-item" href="mailto:niriksha.narendra@gmail.com">
+        <span class="ci-icon">✉️</span>
+        <div>
+          <div class="ci-label">email</div>
+          <div class="ci-value">niriksha.narendra@gmail.com</div>
+        </div>
+      </a>
+      <a class="contact-item" href="https://linkedin.com/in/niriksha-narendra-babu-6087ba150" target="_blank">
+        <span class="ci-icon">💼</span>
+        <div>
+          <div class="ci-label">linkedin</div>
+          <div class="ci-value">niriksha-narendra-babu</div>
+        </div>
+      </a>
+      <a class="contact-item" href="https://github.com/niriksha-narendra" target="_blank">
+        <span class="ci-icon">⭐</span>
+        <div>
+          <div class="ci-label">github</div>
+          <div class="ci-value">niriksha-narendra</div>
+        </div>
+      </a>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="wrap">
+    niriksha narendra babu · cincinnati, oh · built with html/css · hosted on github pages
+  </div>
+</footer>
+
+</body>
+</html>
