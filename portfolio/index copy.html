@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Niriksha Narendra Babu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:      #1a1a2e;
+  --surface: #16213e;
+  --border:  rgba(255,255,255,0.12);
+  --text:    rgba(255,255,255,0.87);
+  --muted:   rgba(255,255,255,0.55);
+  --accent:  #4a9eff;
+  --white:   #ffffff;
+}
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+}
+.navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(26,26,46,0.93);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+.navbar-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+}
+.navbar-brand {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--white);
+  text-decoration: none;
+}
+.navbar-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.1rem;
+  list-style: none;
+}
+.navbar-nav a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.85rem;
+  padding: 0.35rem 0.7rem;
+  border-radius: 4px;
+  transition: color 0.2s;
+}
+.navbar-nav a:hover, .navbar-nav a.active { color: var(--white); }
+.navbar-nav a i { font-size: 0.95rem; }
+main {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 96px 2rem 5rem;
+}
+.page-title {
+  font-size: 1.45rem;
+  font-weight: 400;
+  color: var(--white);
+  margin-bottom: 2.5rem;
+  line-height: 1.45;
+  max-width: 680px;
+}
+.hero-top {
+  display: flex;
+  gap: 50px;
+  align-items: center;
+  margin-bottom: 50px;
+}
+.hero-photo {
+  width: 220px;
+  height: 272px;
+  border-radius: 110px 110px 12px 12px;
+  border: 3px solid var(--border);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  flex-shrink: 0;
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 5rem;
+  object-fit: cover;
+  object-position: center top;
+}
+.hero-name {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.2;
+  margin-bottom: 0.45rem;
+}
+.hero-role {
+  font-size: 0.92rem;
+  color: var(--muted);
+  margin-bottom: 1.1rem;
+}
+.hero-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 1.4rem;
+}
+.badge {
+  background: rgba(74,158,255,0.1);
+  color: var(--accent);
+  border: 1px solid rgba(74,158,255,0.22);
+  border-radius: 3px;
+  padding: 0.18rem 0.6rem;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+}
+.hero-links { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.42rem 0.95rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.18s;
+}
+.btn-primary { background: var(--accent); color: white; border: 1px solid var(--accent); }
+.btn-primary:hover { background: #3a8eef; }
+.btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
+.btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+.hero-bottom {
+  display: flex;
+  gap: 50px;
+  border-top: 1px solid var(--border);
+  padding-top: 40px;
+}
+.intro-label { width: 220px; flex-shrink: 0; }
+.intro-line { border: none; border-top: 2px solid white; width: 40px; margin: 0 0 10px 0; }
+.intro-label span {
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.9);
+  letter-spacing: 1px;
+}
+.intro-text p {
+  font-size: 1rem;
+  line-height: 1.78;
+  color: var(--white);
+  margin-bottom: 1.1rem;
+}
+.intro-text p:last-child { margin-bottom: 0; }
+.intro-text a { color: white; font-weight: 600; text-decoration: underline; }
+.intro-text strong { color: white; }
+.location { color: var(--muted) !important; font-size: 0.9rem !important; }
+@media (max-width: 700px) {
+  .hero-top, .hero-bottom { flex-direction: column; gap: 2rem; }
+  .intro-label { width: auto; }
+  .navbar-nav a span { display: none; }
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a class="navbar-brand" href="index.html">Niriksha Narendra Babu</a>
+    <ul class="navbar-nav">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="experience.html">Experience</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="skills.html">Skills</a></li>
+      <li><a href="resume.html">Resume</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="mailto:niriksha.narendra@gmail.com" title="Email"><i class="bi bi-envelope"></i></a></li>
+      <li><a href="https://www.linkedin.com/in/niriksha-narendra-babu-6087ba150/" target="_blank" title="LinkedIn"><i class="bi bi-linkedin"></i></a></li>
+      <li><a href="https://github.com/niriksha-narendra" target="_blank" title="GitHub"><i class="bi bi-github"></i></a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+
+  <h1 class="page-title">
+    Data Engineer building reliable pipelines and scalable analytics infrastructure in regulated, high-growth environments.
+  </h1>
+
+  <div class="hero-top">
+    <div class="hero-photo">👩‍💻</div>
+    <div class="hero-text">
+      <div class="hero-name">Niriksha Narendra Babu</div>
+      <div class="hero-role">Data Engineer II &nbsp;·&nbsp; Medpace, Inc &nbsp;·&nbsp; Cincinnati, OH</div>
+      <div class="hero-badges">
+        <span class="badge">Python</span>
+        <span class="badge">Snowflake</span>
+        <span class="badge">dbt</span>
+        <span class="badge">PostgreSQL</span>
+        <span class="badge">Airflow</span>
+        <span class="badge">AWS</span>
+        <span class="badge">Azure</span>
+        <span class="badge">PySpark</span>
+      </div>
+      <div class="hero-links">
+        <a class="btn btn-primary" href="https://github.com/niriksha-narendra" target="_blank">
+          <i class="bi bi-github"></i> GitHub
+        </a>
+        <a class="btn btn-outline" href="https://www.linkedin.com/in/niriksha-narendra-babu-6087ba150/" target="_blank">
+          <i class="bi bi-linkedin"></i> LinkedIn
+        </a>
+        <a class="btn btn-outline" href="resume.html">
+          <i class="bi bi-file-earmark-text"></i> Resume
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-bottom">
+    <div class="intro-label">
+      <hr class="intro-line">
+      <span>Intro</span>
+    </div>
+    <div class="intro-text">
+      <p class="location">
+        📍 Cincinnati, OH &nbsp;·&nbsp;
+        <a href="https://www.linkedin.com/in/niriksha-narendra-babu-6087ba150/" target="_blank">LinkedIn</a>
+      </p>
+      <p>
+        I'm a data engineer with 3+ years of production experience building data infrastructure
+        at <strong>Medpace</strong>, a clinical research organization. I architect Snowflake-based
+        Medallion pipelines, build dbt models, and own the data systems that clinical and finance
+        teams depend on daily.
+      </p>
+      <p>
+        My focus is <strong>data reliability, clean architecture, and practical delivery</strong> —
+        translating loosely defined requirements into maintainable systems. I've reduced compute
+        overhead by 22%, sustained 99.9% pipeline uptime across 30+ sources, and built dashboards
+        that cut ad-hoc data requests by 35%.
+      </p>
+      <p>
+        This portfolio covers my engineering work across production pipelines, distributed
+        data systems, and applied machine learning projects.
+      </p>
+    </div>
+  </div>
+
+</main>
+</body>
+</html>
